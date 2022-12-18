@@ -1,0 +1,18 @@
+{
+  "name": "rvcl_api",
+  "version": "1.0.0",
+  "description": "api of rvcl",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ravindrasinh",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": "18.12.1"
+  }
+}
