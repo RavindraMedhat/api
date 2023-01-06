@@ -7,7 +7,7 @@ const port = process.env.PORT || 7485;
 const appdata = require("./data.json");
 
 app.get("/", (req, res) => {
-    res.send("hello i am reavindra");
+    res.send("hello i am ravindrasinh");
 });
 
 app.get("/data", (req, res) => {
