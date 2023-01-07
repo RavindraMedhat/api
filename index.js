@@ -13,6 +13,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/users", async (req, res) => {
+    res.send(appdata);
 
 
 })
