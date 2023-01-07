@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
 });
 
 // add user
-app.post("/user", async (req, res) => {
+app.get("/user", async (req, res) => {
 
     try {
         const reqdata = new User(req.body);
@@ -26,7 +26,7 @@ app.post("/user", async (req, res) => {
 })
 
 // get list of users
-app.post("/users", async (req, res) => {
+app.get("/users", async (req, res) => {
     try {
         const data = await User.find();
         res.send(data);
