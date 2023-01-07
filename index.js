@@ -1,6 +1,7 @@
 const express = require("express");
-require("./conn")
-
+require("./database/conn")
+// const port = process.env.PORT || 1234;
+const User = require("./models/user")
 const cors = require("cors");
 const app = express();
 app.use(cors());
@@ -13,8 +14,15 @@ app.get("/", (req, res) => {
 });
 
 app.get("/users", async (req, res) => {
-    res.send(appdata);
-
+    // res.send(appdata);
+    try {
+        const data = await User.find();
+        res.send(data);
+    } catch (e) {
+        console.log("error :- ", e);
+        res.status(400).send(e);
+        // res.send(appdata);
+    }
 
 })
 app.get("/data", async (req, res) => {
