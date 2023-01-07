@@ -13,6 +13,19 @@ app.get("/", (req, res) => {
     res.send("hello i am ravindrasinh");
 });
 
+app.post("/user", async (req, res) => {
+
+    try {
+        const reqdata = new User(req.body);
+        const createUser = await reqdata.save();
+        res.status(201).send(createUser);
+        // console.log("user is add");
+    } catch (e) {
+        console.log("error :- ", e);
+        res.status(400).send(e);
+    }
+})
+
 app.get("/users", async (req, res) => {
     // res.send(appdata);
     try {
@@ -27,14 +40,6 @@ app.get("/users", async (req, res) => {
 })
 app.get("/data", async (req, res) => {
     res.send(appdata);
-    // try {
-    //     const data = await User.find();
-    //     res.send(data);
-    // } catch (e) {
-    //     console.log("error :- ", e);
-    //     res.status(400).send(e);
-    //     // res.send(appdata);
-    // }
 });
 
 app.listen(port, () => {
