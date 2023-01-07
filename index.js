@@ -4,7 +4,7 @@ require("./database/conn")
 const User = require("./models/user")
 const cors = require("cors");
 const app = express();
-app.use(cors());
+app.use(express.json());
 
 const port = process.env.PORT || 7485;
 const appdata = require("./data.json");
