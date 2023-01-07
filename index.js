@@ -26,7 +26,7 @@ app.post("/user", async (req, res) => {
 })
 
 // get list of users
-app.get("/users", async (req, res) => {
+app.post("/users", async (req, res) => {
     try {
         const data = await User.find();
         res.send(data);
