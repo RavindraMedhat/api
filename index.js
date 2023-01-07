@@ -23,7 +23,7 @@ app.get("/data", async (req, res) => {
         res.send(data);
     } catch (e) {
         console.log("error :- ", e);
-        // res.status(400).send(e);
+        res.status(400).send(e);
         res.send(appdata);
     }
 });
