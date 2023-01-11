@@ -9,16 +9,20 @@ const port = process.env.PORT || 7485;
 const appdata = require("./data.json");
 
 app.get("/", (req, res) => {
-    res.send("hello i am ravindrasinh");
+    res.send("hello, i am rvcl");
 });
 
 // add user
-app.get("/user", async (req, res) => {
-
+app.post("/AddUser", async (req, res) => {
     try {
         const reqdata = new User(req.body);
-        const createUser = await reqdata.save();
-        res.status(201).send(createUser);
+        const data = await User.find({ username: reqdata.username });
+        if (data.length == 0) {
+            await reqdata.save();
+            return res.status(201).send({ success: true, message: "user is add" });
+        } else {
+            return res.send({ success: false, message: "username alredy used" });
+        }
     } catch (e) {
         console.log("error :- ", e);
         res.status(400).send(e);
@@ -28,25 +32,46 @@ app.get("/user", async (req, res) => {
 // get list of users
 app.get("/users", async (req, res) => {
     try {
-        const data = await User.find();
-        res.send(data);
-    } catch (e) {
-        console.log("error :- ", e);
-        res.status(400).send(e);
-    }
-
-})
-// get user data by id
-app.get("/user/:id", async (req, res) => {
-
-    try {
-        const _id = req.params.id;
-        const data = await User.findById(_id);
-        console.log(data);
-        if (!data)
-            return res.status(404).send();
+        const user_data = await User.find();
+        if (user_data.length == 0)
+            return res.status(200).json({ success: false, message: "no data found" });
         else
-            res.send(data);
+            return res.status(200).json({ success: true, user_data });
+    } catch (e) {
+        console.log("error :- ", e);
+        return res.status(400).json(e);
+    }
+})
+
+// get user data by username
+app.get("/userByName", async (req, res) => {
+    try {
+        const username = req.body;
+        const data = await User.find(username);
+        console.log(req.body);
+        console.log(data);
+        if (data.length == 0)
+            return res.status(404).send({ data: "no data found" });
+        else
+            return res.status(401).send({ data: data });
+    } catch (e) {
+        console.log("error :- ", e);
+        res.status(400).send(e);
+    }
+})
+
+// check user is there or not
+app.get("/isUserThere", async (req, res) => {
+    try {
+        const username = req.body;
+        console.log(username.username);
+        const data = await User.find(username);
+        if (data.length == 0)
+            return res.status(404).send({ isUserThere: false, message: "there are no data of username" });
+        else if (data.length == 1)
+            return res.status(401).send({ isUserThere: true, message: "there are 1 data of username" });
+        else
+            return res.status(401).send({ isUserThere: false, message: "there are more then 1 data of same username" });
 
     } catch (e) {
         console.log("error :- ", e);
@@ -54,9 +79,28 @@ app.get("/user/:id", async (req, res) => {
     }
 })
 
+// try to login
+app.get("/LoginReq", async (req, res) => {
+
+    const reqData = req.body;
+    const data = await User.find(reqData);
+
+    if (data.length == 0) {
+        return res.send({ success: false });
+    } else {
+        return res.send({ success: true });
+    }
+
+})
+
+// temp api
 app.get("/data", async (req, res) => {
     res.send(appdata);
 });
+
+app.get("/vivek", (req, res) => {
+    res.send("hii vivek");
+})
 
 app.listen(port, () => {
     console.log("i am ravi");
