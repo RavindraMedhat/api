@@ -80,7 +80,7 @@ app.get("/isUserThere", async (req, res) => {
 })
 
 // try to login
-app.get("/LoginReq", async (req, res) => {
+app.post("/LoginReq", async (req, res) => {
 
     const reqData = req.body;
     const data = await User.find(reqData);
