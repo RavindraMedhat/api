@@ -30,7 +30,7 @@ app.post("/AddUser", async (req, res) => {
 })
 
 // get list of users
-app.get("/users", async (req, res) => {
+app.post("/users", async (req, res) => {
     try {
         const user_data = await User.find();
         if (user_data.length == 0)
@@ -44,7 +44,7 @@ app.get("/users", async (req, res) => {
 })
 
 // get user data by username
-app.get("/userByName", async (req, res) => {
+app.post("/userByName", async (req, res) => {
     try {
         const username = req.body;
         const data = await User.find(username);
@@ -61,7 +61,7 @@ app.get("/userByName", async (req, res) => {
 })
 
 // check user is there or not
-app.get("/isUserThere", async (req, res) => {
+app.post("/isUserThere", async (req, res) => {
     try {
         const username = req.body;
         console.log(username.username);
