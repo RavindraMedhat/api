@@ -86,9 +86,9 @@ app.get("/LoginReq", async (req, res) => {
     const data = await User.find(reqData);
 
     if (data.length == 0) {
-        return res.send({ success: false });
+        return res.send({ success: false, rool: "" });
     } else {
-        return res.send({ success: true });
+        return res.send({ success: true, role: data[0].role });
     }
 
 })
