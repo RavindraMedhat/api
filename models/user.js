@@ -11,20 +11,20 @@ const userSchema = new mongose.Schema({
     password: {
         type: String,
         required: true,
-        minLength: 8,
+        minLength: 6,
     },
     role: {
         type: String,
         required: true,
-        validate(valu){
-            if(valu != "customer" && valu != "owner" && valu != "employee" && valu != "accounter" ){
-                throw new Error("inveid role"); 
+        validate(valu) {
+            if (valu != "customer" && valu != "owner" && valu != "employee" && valu != "accounter") {
+                throw new Error("inveid role");
             }
         }
     }
 
 });
 
-const User = new mongose.model('user',userSchema);
+const User = new mongose.model('user', userSchema);
 
-module.exports =User;
+module.exports = User;
