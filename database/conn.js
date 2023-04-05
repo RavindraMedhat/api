@@ -1,4 +1,5 @@
 const mongose = require("mongoose");
+
 mongose.connect("mongodb+srv://test:test@cluster0.3snq0fm.mongodb.net/RVCL_DB?retryWrites=true&w=majority"
     , {
         useNewUrlParser: true,
