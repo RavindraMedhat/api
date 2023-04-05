@@ -100,6 +100,10 @@ app.get("/data", async (req, res) => {
 
 app.get("/vivek", (req, res) => {
     res.send(" hii vivek i am ravindrasinh");
+});
+
+app.get("/dir", (req, res) => {
+    res.send(__dirname);
 })
 
 app.listen(port, () => {
