@@ -1,5 +1,6 @@
 const express = require("express");
 require("./database/conn")
+require("./database/data")
 
 const User = require("./models/user")
 const app = express();
@@ -93,10 +94,7 @@ app.post("/LoginReq", async (req, res) => {
 
 })
 
-// temp api
-app.get("/data", async (req, res) => {
-    res.send(appdata);
-});
+
 
 app.get("/vivek", (req, res) => {
     res.send(" hii vivek i am ravindrasinh");
