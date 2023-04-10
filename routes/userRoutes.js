@@ -21,7 +21,7 @@ router.post("/AddUser", async (req, res) => {
 })
 
 // get list of users
-router.post("/users", async (req, res) => {
+router.get("/users", async (req, res) => {
     try {
         const user_data = await User.find();
         if (user_data.length == 0)
