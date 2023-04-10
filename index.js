@@ -8,12 +8,15 @@ const appdata = require("./data.json");
 
 require("./database/conn")
 
+app.use(express.json());
 
 app.get("/", (req, res) => {
     res.send("hello, i am rvcl");
 });
 
-app.use(express.json());
+app.use(userRoutes);
+
+
 
 // temp api
 app.get("/data", async (req, res) => {
