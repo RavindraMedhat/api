@@ -5,16 +5,15 @@ const userRoutes = require("./routes/userRoutes")
 const port = process.env.PORT || 7485;
 const appdata = require("./data.json");
 
-app.use(express.json());
 
 require("./database/conn")
+
 
 app.get("/", (req, res) => {
     res.send("hello, i am rvcl");
 });
 
-
-
+app.use(express.json());
 
 // temp api
 app.get("/data", async (req, res) => {
