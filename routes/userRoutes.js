@@ -7,7 +7,7 @@ router.post("/add", async (req, res) => {
     try {
         const reqdata = new User(req.body);
         const data = await User.find({ username: reqdata.username });
-        if (data.length == 0) { 
+        if (data.length == 0) {
             await reqdata.save();
             return res.status(201).send({ success: true, message: "user is add" });
         } else {
@@ -36,8 +36,8 @@ router.get("/list", async (req, res) => {
 // get user data by username
 router.get("/:userName", async (req, res) => {
     try {
-        const username = req.params.userName ;
-        const data = await User.find(username);
+        const username = req.params.userName;
+        const data = await User.find({ username: username });
         console.log(req.body);
         console.log(data);
         if (data.length == 0)
