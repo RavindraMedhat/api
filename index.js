@@ -32,19 +32,24 @@ app.get("/", (req, res) => {
     res.send("hello, i am rvcl");
 });
 
-app.use('/user', userRoutes); 
+app.use('/user', userRoutes);
 
 // try to login
-app.post("/LoginReq", async (req, res) => {
+app.post("/LoginReq", (req, res) => {
 
     const reqData = req.body;
-    const data = await User.find(reqData);
+    User.find(reqData)
+        .then((data) => {
+            if (data.length == 0) {
+                return res.send({ success: false, rool: "" });
+            } else {
+                return res.send({ success: true, role: data[0].role });
+            }
+        }).catch((e) => {
+            console.log("error :- " + e);
+        })
 
-    if (data.length == 0) {
-        return res.send({ success: false, rool: "" });
-    } else {
-        return res.send({ success: true, role: data[0].role });
-    }
+
 })
 
 // temp api
