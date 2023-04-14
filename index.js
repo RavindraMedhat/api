@@ -1,6 +1,7 @@
 const express = require("express");
 const userRoutes = require("./routes/userRoutes")
 const appdata = require("./data.json");
+const User = require("../models/user");
 const mongose = require("mongoose");
 
 const app = express();
@@ -38,6 +39,7 @@ app.use('/user', userRoutes);
 app.post("/LoginReq", (req, res) => {
 
     const reqData = req.body;
+
     User.find(reqData)
         .then((data) => {
             if (data.length == 0) {
