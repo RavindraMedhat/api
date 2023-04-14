@@ -1,12 +1,30 @@
 const express = require("express");
-const app = express();
 const userRoutes = require("./routes/userRoutes")
+const appdata = require("./data.json");
+const mongose = require("mongoose");
+
+const app = express();
 
 const port = process.env.PORT || 7485;
-const appdata = require("./data.json");
 
+mongose.connect("mongodb+srv://test:74857485@cluster0.3snq0fm.mongodb.net/RVCL_DB?retryWrites=true&w=majority"
+    , {
+        useNewUrlParser: true,
+        // useCreateIndex: true,
+        // useFindAndModify: true,
+        useUnifiedTopology: true,
+    }
+).then(() => {
+    console.log("connection is successful");
 
-require("./database/conn")
+    app.listen(port, () => {
+        console.log("I AM RAVI NOW YOU CAN REQUEST ANY THING");
+    });
+}).catch((e) => {
+    console.log("not connect");
+    console.log(e);
+});
+
 
 app.use(express.json());
 
@@ -14,17 +32,24 @@ app.get("/", (req, res) => {
     res.send("hello, i am rvcl");
 });
 
-app.use(userRoutes);
+app.use('/user',userRoutes);
+
+
+// try to login
+router.post("/LoginReq", async (req, res) => {
+
+    const reqData = req.body;
+    const data = await User.find(reqData);
+
+    if (data.length == 0) {
+        return res.send({ success: false, rool: "" });
+    } else {
+        return res.send({ success: true, role: data[0].role });
+    }
+})
 
 // temp api
 app.get("/data", async (req, res) => {
     res.send(appdata);
 });
 
-app.get("/vivek", (req, res) => {
-    res.send(" hii vivek i am ravindrasinh");
-})
-
-app.listen(port, () => {
-    console.log("i am ravi");
-});

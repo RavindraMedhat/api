@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 // add user
-router.post("/AddUser", async (req, res) => {
+router.post("/add", async (req, res) => {
     try {
         const reqdata = new User(req.body);
         const data = await User.find({ username: reqdata.username });
@@ -19,8 +19,8 @@ router.post("/AddUser", async (req, res) => {
     }
 })
 
-// get list of users
-router.get("/users", async (req, res) => {
+// get list of all users
+router.get("/list", async (req, res) => {
     try {
         const user_data = await User.find();
         if (user_data.length == 0)
@@ -34,9 +34,9 @@ router.get("/users", async (req, res) => {
 })
 
 // get user data by username
-router.post("/userByName", async (req, res) => {
+router.get("/:userName", async (req, res) => {
     try {
-        const username = req.body;
+        const username = req.params.userName ;
         const data = await User.find(username);
         console.log(req.body);
         console.log(data);
@@ -51,7 +51,7 @@ router.post("/userByName", async (req, res) => {
 })
 
 // check user is there or not
-router.post("/isUserThere", async (req, res) => {
+router.post("/isThere", async (req, res) => {
     try {
         const username = req.body;
         console.log(username.username);
@@ -67,20 +67,6 @@ router.post("/isUserThere", async (req, res) => {
         console.log("error :- ", e);
         res.status(400).send(e);
     }
-})
-
-// try to login
-router.post("/LoginReq", async (req, res) => {
-
-    const reqData = req.body;
-    const data = await User.find(reqData);
-
-    if (data.length == 0) {
-        return res.send({ success: false, rool: "" });
-    } else {
-        return res.send({ success: true, role: data[0].role });
-    }
-
 })
 
 module.exports = router;
