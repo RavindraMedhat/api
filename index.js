@@ -32,11 +32,10 @@ app.get("/", (req, res) => {
     res.send("hello, i am rvcl");
 });
 
-app.use('/user',userRoutes);
-
+app.use('/user', userRoutes); 
 
 // try to login
-router.post("/LoginReq", async (req, res) => {
+app.post("/LoginReq", async (req, res) => {
 
     const reqData = req.body;
     const data = await User.find(reqData);
