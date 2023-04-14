@@ -20,7 +20,7 @@ const user_add = (req, res) => {
 }
 
 const user_list = (req, res) => {
-    const user_data = User.find()
+    User.find()
         .then((user_data) => {
             if (user_data.length == 0)
                 return res.status(200).json({ success: false, message: "no data found" });
@@ -36,8 +36,8 @@ const user_list = (req, res) => {
 const user_by_name = (req, res) => {
     const username = req.params.userName;
 
-    const data = User.find({ username: username })
-        .then(() => {
+    User.find({ username: username })
+        .then((data) => {
             console.log(req.body);
             console.log(data);
             if (data.length == 0)
@@ -55,8 +55,8 @@ const user_is_there = (req, res) => {
     const username = req.body;
     console.log(username.username);
 
-    const data = User.find(username)
-        .then(() => {
+    User.find(username)
+        .then((data) => {
             if (data.length == 0)
                 return res.status(404).send({ isUserThere: false, message: "there are no data of username" });
             else if (data.length == 1)
