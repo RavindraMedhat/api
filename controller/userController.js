@@ -1,19 +1,49 @@
 const User = require("../models/user")
 
+const handleError = (err) => {
+    // console.log(err.message, err.code);
+    const error = { username: '', password: '', role: '' };
+    if (err.message.includes('user validation failed')) {
+        Object.values(err.errors).forEach(e => {
+            console.log(e.properties)
+            error[e.properties.path] = e.properties.message;
+        });
+        console.log(error);
+    }
+
+    return error;
+}
+
 const user_add = (req, res) => {
     const reqdata = new User(req.body);
 
     User.find({ username: reqdata.username })
         .then((data) => {
             if (data.length == 0) {
-                reqdata.save();
-                return res.status(201).send({ success: true, message: "user is add" });
+                reqdata.save()
+                    .then(() => {
+                        return res.status(201).send({ success: true, message: "user is add" });
+                    })
+                    .catch((e) => {
+                        console.log("error fing", e);
+                        const error = handleError(e);
+                        // res.status(400).send(e);
+                        // return res.status(201).send({ success: true, message: e.message });
+                        return res.status(201).json({ success: false, error });
+
+                    });
             } else {
-                return res.send({ success: false, message: "username alredy used" });
+                return res.send({
+                    success: false, error: {
+                        username: 'User name alreday used',
+                        password: '',
+                        role: ''
+                    }
+                });
             }
         })
         .catch((e) => {
-            console.log("error :- ", e);
+            // handleError(e);
             res.status(400).send(e);
         })
 

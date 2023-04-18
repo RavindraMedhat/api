@@ -1,14 +1,18 @@
 const express = require("express");
 const userRoutes = require("./routes/userRoutes")
+const garmentsTypeRoutes = require("./routes/garmentsTypeRoutes")
 const appdata = require("./data.json");
 const User = require("./models/user");
 const mongose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const app = express();
 
 const port = process.env.PORT || 7485;
 
-mongose.connect("mongodb+srv://test:74857485@cluster0.3snq0fm.mongodb.net/RVCL_DB?retryWrites=true&w=majority"
+// code for connection
+
+mongose.connect("mongodb+srv://test:74857485@cluster0.3snq0fm.mongodb.net/RVCL_DB"
     , {
         useNewUrlParser: true,
         // useCreateIndex: true,
@@ -28,30 +32,37 @@ mongose.connect("mongodb+srv://test:74857485@cluster0.3snq0fm.mongodb.net/RVCL_D
 
 
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 
 app.get("/", (req, res) => {
     res.send("hello, i am rvcl");
 });
 
 app.use('/user', userRoutes);
+app.use('/garmentsType', garmentsTypeRoutes);
 
-// try to login
+// try to login  
 app.post("/LoginReq", (req, res) => {
 
-    const reqData = req.body;
-
-    User.find(reqData)
+    User.find({ username: req.body.username })
         .then((data) => {
+            // console.log(req.body.password, data.password);
+            console.log(data);
             if (data.length == 0) {
-                return res.send({ success: false, rool: "" });
+                return res.send({ success: false, rool: "", error: "user is not found" });
             } else {
-                return res.send({ success: true, role: data[0].role });
+                bcrypt.compare(req.body.password, data[0].password).then((boll) => {
+                    if (boll) {
+                        console.log(req.body.password);
+                        return res.send({ success: true, role: data[0].role, error: "" });
+                    } else {
+                        return res.send({ success: false, rool: "", error: "password is not corect" });
+                    }
+                });
             }
         }).catch((e) => {
             console.log("error :- " + e);
         })
-
-
 })
 
 // temp api
