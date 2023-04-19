@@ -7,7 +7,7 @@ const garmentsTypeSchema = new mongose.Schema({
         required: [true, 'Please enter garmentsTypeName'],
         minLength: [5, 'Please enter minimum 5 latern in garmentsTypeName'],
     },
-    garmentsImage: {
+    garmentImage: {
         type: String,
         required: [true, 'Please enter password'],
         minLength: [5, 'Please enter minimum 5 latern in password'],

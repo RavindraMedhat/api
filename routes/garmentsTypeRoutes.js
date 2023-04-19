@@ -5,7 +5,7 @@ const multer = require("multer");
 
 const upload = multer({ storage: multer.memoryStorage() });
 // add user
-router.post("/add", upload.single('garmentsImage'), garmentsType_controller.garmentsType_add);
+router.post("/add", upload.single('garmentImage'), garmentsType_controller.garmentsType_add);
 
 // get list of all users
 router.get("/list", garmentsType_controller.garmentsType_list);

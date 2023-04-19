@@ -36,10 +36,10 @@ const garmentsType_add = async (req, res) => {
         garmentsTypeName: req.body.garmentsTypeName,
         collectionName: req.body.collectionName
     });
-    console.log("hii")
+
     if (req.file) {
-        console.log("hiimid")
-        const storageref = ref(storage, req.file.originalname);
+        // const storageref = ref(storage, req.file.originalname);
+        const storageref = ref(storage, garmentsType.collectionName + "/" + req.file.originalname);
 
         const metadata = {
             contentType: 'image/jpg'
@@ -48,7 +48,7 @@ const garmentsType_add = async (req, res) => {
         uploadBytes(storageref, req.file.buffer, metadata)
             .then(() => {
                 getDownloadURL(storageref).then((url) => {
-                    garmentsType.garmentsImage = url;
+                    garmentsType.garmentImage = url;
                 }).then(() => {
                     garmentsType.save().then(() => {
                         return res.status(201).send({ success: true, message: "garmentsType is add" });
@@ -60,9 +60,6 @@ const garmentsType_add = async (req, res) => {
             })
 
     }
-    console.log("hii end")
-
-
 }
 
 
