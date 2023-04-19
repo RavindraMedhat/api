@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const garmentsType_controller = require("../controller/garmentsTypeController");
+const multer = require("multer");
 
-const upload = require ("../middlerware/upload");
+const upload = multer({ storage: multer.memoryStorage() });
 // add user
-router.post("/add",upload.single('garmentsImage'), garmentsType_controller.garmentsType_add);
+router.post("/add", upload.single('garmentsImage'), garmentsType_controller.garmentsType_add);
 
 // get list of all users
 router.get("/list", garmentsType_controller.garmentsType_list);
