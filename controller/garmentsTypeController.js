@@ -1,7 +1,10 @@
 const GarmentsType = require("../models/garmentsType");
+const path = require("path");
 
 const firebase = require("firebase/app");
-const { getStorage, ref, uploadBytes, getDownloadURL } = require("firebase/storage");
+
+const { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } = require("firebase/storage");
+const garmentsType = require("../models/garmentsType");
 
 const firebaseConfig = {
     apiKey: "AIzaSyAWSkFneOhBIPRUg0zif8F5irl_fgXHoe0",
@@ -39,7 +42,8 @@ const garmentsType_add = async (req, res) => {
 
     if (req.file) {
         // const storageref = ref(storage, req.file.originalname);
-        const storageref = ref(storage, garmentsType.collectionName + "/" + req.file.originalname);
+        garmentsType.garmentImagePath = garmentsType.collectionName + "/" + garmentsType.garmentsTypeName + "_" + Date.now() + path.extname(req.file.originalname);
+        const storageref = ref(storage, garmentsType.garmentImagePath);
 
         const metadata = {
             contentType: 'image/jpg'
@@ -48,7 +52,7 @@ const garmentsType_add = async (req, res) => {
         uploadBytes(storageref, req.file.buffer, metadata)
             .then(() => {
                 getDownloadURL(storageref).then((url) => {
-                    garmentsType.garmentImage = url;
+                    garmentsType.garmentImageURL = url;
                 }).then(() => {
                     garmentsType.save().then(() => {
                         return res.status(201).send({ success: true, message: "garmentsType is add" });
@@ -59,15 +63,41 @@ const garmentsType_add = async (req, res) => {
                 })
             })
 
+    } else {
+        return res.status(200).send({ success: false, message: "garmentsType is not add" });
+
     }
 }
 
+const garmentsType_remove = (req, res) => {
+    // console.log(req.params.id);
+    garmentsType.findByIdAndDelete(req.params.id)
+        .then((GT) => {
 
+            if (!GT) {
 
+                return res.status(200).send({ success: false, message: "garmentsType is not found" });
 
+            } else {
+                const fileref = ref(storage, GT.garmentImagePath);
+                deleteObject(fileref)
+                    .then(() => {
+                        return res.status(201).send({ success: true, message: "garmentsType is remove" });
+                    })
+                    .catch((e) => {
+                        return res.status(200).send({ success: false, message: "garmentsType is remove but image not remove :- " + e });
+                    })
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+            return res.status(200).send({ success: false, message: "garmentsType is not remove" });
+        })
 
+}
 
 module.exports = {
     garmentsType_list,
-    garmentsType_add
+    garmentsType_add,
+    garmentsType_remove
 }

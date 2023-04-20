@@ -7,24 +7,22 @@ const garmentsTypeSchema = new mongose.Schema({
         required: [true, 'Please enter garmentsTypeName'],
         minLength: [5, 'Please enter minimum 5 latern in garmentsTypeName'],
     },
-    garmentImage: {
+    garmentImageURL: {
         type: String,
-        required: [true, 'Please enter password'],
+        required: [true, 'garment image url not found'],
+        minLength: [5, 'Please enter minimum 5 latern in password'],
+    },
+    garmentImagePath: {
+        type: String,
+        required: [true, 'garment image path not found'],
         minLength: [5, 'Please enter minimum 5 latern in password'],
     },
     collectionName: {
         type: String,
         required: [true, 'Please enter collection Name'],
-
     }
-    // ,
-    // profilePhoto:{
-    //     type : Buffer,
-    //     required:true
-    // }
 
 }, { timestamps: true });
-
 
 const garmentsType = new mongose.model('garmentsType', garmentsTypeSchema);
 

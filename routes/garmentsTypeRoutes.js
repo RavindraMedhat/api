@@ -4,10 +4,13 @@ const garmentsType_controller = require("../controller/garmentsTypeController");
 const multer = require("multer");
 
 const upload = multer({ storage: multer.memoryStorage() });
-// add user
+// add garmentsType
 router.post("/add", upload.single('garmentImage'), garmentsType_controller.garmentsType_add);
 
-// get list of all users
+// remove garmentsType
+router.delete("/remove/:id", garmentsType_controller.garmentsType_remove);
+
+// get list of all garmentsType
 router.get("/list", garmentsType_controller.garmentsType_list);
 
 // // get user data by username
