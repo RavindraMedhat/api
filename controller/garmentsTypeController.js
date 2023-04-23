@@ -4,7 +4,6 @@ const path = require("path");
 const firebase = require("firebase/app");
 
 const { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } = require("firebase/storage");
-const garmentsType = require("../models/garmentsType");
 
 const firebaseConfig = {
     apiKey: "AIzaSyAWSkFneOhBIPRUg0zif8F5irl_fgXHoe0",
@@ -57,7 +56,7 @@ const garmentsType_add = async (req, res) => {
                     garmentsType.save().then(() => {
                         return res.status(201).send({ success: true, message: "garmentsType is add" });
                     }).catch((e) => {
-                        // console.log(e);
+                        console.log(e);
                         console.log(req);
                         return res.status(200).send({ success: false, message: "garmentsType is not add" });
                     })

@@ -1,6 +1,7 @@
 const express = require("express");
 const userRoutes = require("./routes/userRoutes")
 const garmentsTypeRoutes = require("./routes/garmentsTypeRoutes")
+const customerRoutes = require("./routes/customerRoutes")
 const appdata = require("./data.json");
 const User = require("./models/user");
 const mongose = require("mongoose");
@@ -32,14 +33,19 @@ mongose.connect("mongodb+srv://test:74857485@cluster0.3snq0fm.mongodb.net/RVCL_D
 
 
 app.use(express.json());
-app.use("/uploads", express.static("uploads"));
+
 
 app.get("/", (req, res) => {
     res.send("hello, i am rvcl");
 });
 
 app.use('/user', userRoutes);
+
 app.use('/garmentsType', garmentsTypeRoutes);
+
+app.use('/customer', customerRoutes);
+
+
 
 // try to login  
 app.post("/LoginReq", (req, res) => {

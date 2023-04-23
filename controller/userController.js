@@ -15,12 +15,12 @@ const handleError = (err) => {
 }
 
 const user_add = (req, res) => {
-    const reqdata = new User(req.body);
+    const u = new User(req.body);
 
-    User.find({ username: reqdata.username })
+    User.find({ username: u.username })
         .then((data) => {
             if (data.length == 0) {
-                reqdata.save()
+                u.save()
                     .then(() => {
                         return res.status(201).send({ success: true, message: "user is add" });
                     })
