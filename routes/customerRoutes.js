@@ -1,8 +1,14 @@
 const express = require("express");
-const { customer_add } = require("../controller/customerController");
+const { customer_add, customer_list } = require("../controller/customerController");
 const router = express.Router();
 
 //add customer
-router.post('/add',customer_add );
+// router.use(() => {
+//     console.log("customer")
+//     next()
+// })
+router.post('/add', customer_add);
+
+router.get('/list', customer_list);
 
 module.exports = router;
