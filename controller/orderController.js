@@ -68,8 +68,43 @@ const order_ByOrderId = async (req, res) => {
 
 }
 
+const order_ByCustomerId = async (req, res) => {
+
+    order.find({ customer_id: req.params.c_id })
+        .then((order_data) => {
+            if (order_data.length == 0) {
+                console.log(req.params.id);
+                console.log(order_data);
+
+                return res.status(200).json({ success: false, message: "no data found 1" });
+
+            } else {
+                const garmentTypeIds = order_data.map(order => order.garment_type_id);
+                garmentsType.find({ _id: { $in: garmentTypeIds } })
+                    .then((garment_type_data) => {
+                        if (garment_type_data.length == 0) {
+
+                            return res.status(200).json({ success: false, message: "no data found 2" });
+
+                        } else {
+                            return res.status(200).json({ success: true, Data: { order_data, garment_type_data } });
+
+                        }
+                    }).catch((e) => {
+                        console.log("error :- ", e);
+                        return res.status(400).json(e);
+                    });
+            }
+
+        }).catch((e) => {
+            console.log("error :- ", e);
+            return res.status(400).json(e);
+        });
+}
+
 module.exports = {
     order_add,
     order_list,
-    order_ByOrderId
+    order_ByOrderId,
+    order_ByCustomerId
 }
