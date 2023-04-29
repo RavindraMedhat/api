@@ -23,11 +23,6 @@ const userSchema = new mongose.Schema({
             }
         }
     }
-    // ,
-    // profilePhoto:{
-    //     type : Buffer,
-    //     required:true
-    // }
 
 }, { timestamps: true });
 

@@ -7,7 +7,7 @@ const order_add = async (req, res) => {
     const c = new order(req.body);
 
     c.save().then(() => {
-        return res.status(201).send({ success: true, message: "order is add" });
+        return res.status(200).send({ success: true, message: "order is add" });
     }).catch((e) => {
         return res.status(201).json({ success: false, message: e.message });
     })
