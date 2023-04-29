@@ -65,7 +65,7 @@ const add_enddate = (req, res) => {
 
 const get_Progress = (req, res) => {
 
-    orderId = req.body.orderId;
+    orderId = req.params.orderId;
 
     orderProgress.find({ order_id: orderId })
         .then((order_progress_data) => {

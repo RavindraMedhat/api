@@ -6,7 +6,7 @@ router.post('/add', add_progress);
 
 router.put('/addEndDate', add_enddate);
 
-router.get('/ByOrderId', get_Progress);
+router.get('/ByOrderId/:orderId', get_Progress);
 
 
 module.exports = router;
