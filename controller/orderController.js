@@ -1,7 +1,7 @@
 const customer = require("../models/customer");
 const garmentsType = require("../models/garmentsType");
 const order = require("../models/order");
-const SellReport = require('./models/sellReport');
+const SellReport = require('../models/report');
 const GarmentsType = require("../models/garmentsType");
 
 
