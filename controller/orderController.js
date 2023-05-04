@@ -18,37 +18,46 @@ const order_add = async (req, res) => {
 
         GarmentsType.findById(c.garment_type_id).then((data) => {
             orderGarmentType = data.garmentsTypeName;
+        }).catch((e) => {
+            return res.status(201).json({ success: false, message: e.message });
         })
 
-        const sellReport = SellReport.findOne({ year, month });
+        SellReport.findOne({ year, month }).then((sellReport) => {
+            if (!sellReport) {
+                const newSellReport = new SellReport({
+                    year,
+                    month,
+                    sell: [{
+                        garmentsTypeName: orderGarmentType,
+                        quantity: 1,
+                    }],
+                });
+                newSellReport.save().then(() => {
+                    return res.status(200).send({ success: true, message: "order is add" });
 
-        if (!sellReport) {
-            const newSellReport = new SellReport({
-                year,
-                month,
-                sell: [{
-                    garmentsTypeName: orderGarmentType,
-                    quantity: 1,
-                }],
-            });
-            newSellReport.save();
-        } else {
-            const index = sellReport.sell.findIndex(item => item.garmentsTypeName === orderGarmentType);
-
-            if (index === -1) {
-                sellReport.sell.push({
-                    garmentsTypeName: orderGarmentType,
-                    quantity: 1,
                 });
             } else {
-                sellReport.sell[index].quantity += 1;
+                const index = sellReport.sell.findIndex(item => item.garmentsTypeName === orderGarmentType);
+
+                if (index === -1) {
+                    sellReport.sell.push({
+                        garmentsTypeName: orderGarmentType,
+                        quantity: 1,
+                    });
+                } else {
+                    sellReport.sell[index].quantity += 1;
+                }
+
+                sellReport.save().then(() => {
+                    return res.status(200).send({ success: true, message: "order is add" });
+
+                });
             }
-
-            sellReport.save();
-        }
+        })
 
 
-        return res.status(200).send({ success: true, message: "order is add" });
+
+
     }).catch((e) => {
         return res.status(201).json({ success: false, message: e.message });
     })
