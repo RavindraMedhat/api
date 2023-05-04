@@ -1,12 +1,53 @@
 const customer = require("../models/customer");
 const garmentsType = require("../models/garmentsType");
 const order = require("../models/order");
+const SellReport = require('./models/sellReport');
+const GarmentsType = require("../models/garmentsType");
+
+
 
 const order_add = async (req, res) => {
 
     const c = new order(req.body);
 
     c.save().then(() => {
+
+        const year = c.order_date.getFullYear();
+        const month = c.order_date.toLocaleString('default', { month: 'long' });
+        const orderGarmentType = "";
+
+        GarmentsType.findById(c.garment_type_id).then((data) => {
+            orderGarmentType = data.garmentsTypeName;
+        })
+
+        const sellReport = SellReport.findOne({ year, month });
+
+        if (!sellReport) {
+            const newSellReport = new SellReport({
+                year,
+                month,
+                sell: [{
+                    garmentsTypeName: orderGarmentType,
+                    quantity: 1,
+                }],
+            });
+            newSellReport.save();
+        } else {
+            const index = sellReport.sell.findIndex(item => item.garmentsTypeName === orderGarmentType);
+
+            if (index === -1) {
+                sellReport.sell.push({
+                    garmentsTypeName: orderGarmentType,
+                    quantity: 1,
+                });
+            } else {
+                sellReport.sell[index].quantity += 1;
+            }
+
+            sellReport.save();
+        }
+
+
         return res.status(200).send({ success: true, message: "order is add" });
     }).catch((e) => {
         return res.status(201).json({ success: false, message: e.message });
