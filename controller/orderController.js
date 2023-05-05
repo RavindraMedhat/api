@@ -70,7 +70,7 @@ const order_list = async (req, res) => {
     order.find()
         .then((order_data) => {
             if (order_data.length == 0)
-                return res.status(200).json({ success: false, message: "no data found" });
+                return res.status(200).json({ success: true, order_data });
             else
                 return res.status(200).json({ success: true, order_data });
         })
