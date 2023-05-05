@@ -14,7 +14,7 @@ const order_add = async (req, res) => {
 
         const year = c.order_date.getFullYear();
         const month = c.order_date.toLocaleString('default', { month: 'long' });
-        const orderGarmentType = "";
+        var orderGarmentType = "";
 
         GarmentsType.findById(c.garment_type_id).then((data) => {
             orderGarmentType = data.garmentsTypeName;
