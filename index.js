@@ -4,6 +4,7 @@ const garmentsTypeRoutes = require("./routes/garmentsTypeRoutes")
 const customerRoutes = require("./routes/customerRoutes")
 const orderRoutes = require("./routes/orderRoutes")
 const orderProgressRoutes = require("./routes/orderProgress")
+const sellReportRoutes = require("./routes/sellReportRoutes")
 const appdata = require("./data.json");
 const User = require("./models/user");
 const mongose = require("mongoose");
@@ -54,6 +55,8 @@ app.use('/customer', customerRoutes);
 app.use('/order', orderRoutes);
 
 app.use('/orderProgress', orderProgressRoutes);
+
+app.use('/sellReport', sellReportRoutes);
 
 
 
