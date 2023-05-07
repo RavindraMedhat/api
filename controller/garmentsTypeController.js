@@ -4,6 +4,7 @@ const path = require("path");
 const firebase = require("firebase/app");
 
 const { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } = require("firebase/storage");
+const { trusted } = require("mongoose");
 
 const firebaseConfig = {
     apiKey: "AIzaSyAWSkFneOhBIPRUg0zif8F5irl_fgXHoe0",
@@ -22,7 +23,7 @@ const garmentsType_list = (req, res) => {
     GarmentsType.find()
         .then((garmentsType_data) => {
             if (garmentsType_data.length == 0)
-                return res.status(200).json({ success: false, message: "no data found" });
+                return res.status(200).json({ success: trusted, message: garmentsType_data });
             else
                 return res.status(200).json({ success: true, garmentsType_data });
         })
