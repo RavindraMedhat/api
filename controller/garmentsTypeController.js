@@ -57,7 +57,6 @@ const garmentsType_add = async (req, res) => {
                         return res.status(201).send({ success: true, message: "garmentsType is add" });
                     }).catch((e) => {
                         console.log(e);
-                        console.log(req);
                         return res.status(200).send({ success: false, message: "garmentsType is not add" });
                     })
                 })
@@ -71,7 +70,7 @@ const garmentsType_add = async (req, res) => {
 
 const garmentsType_remove = (req, res) => {
     // console.log(req.params.id);
-    garmentsType.findByIdAndDelete(req.params.id)
+    GarmentsType.findByIdAndDelete(req.params.id)
         .then((GT) => {
 
             if (!GT) {
