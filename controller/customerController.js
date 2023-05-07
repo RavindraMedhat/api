@@ -17,7 +17,7 @@ const customer_list = async (req, res) => {
     customer.find()
         .then((customer_data) => {
             if (customer_data.length == 0)
-                return res.status(200).json({ success: true, message: customer_data });
+                return res.status(200).json({ success: true, customer_data });
             else
                 return res.status(200).json({ success: true, customer_data });
         })

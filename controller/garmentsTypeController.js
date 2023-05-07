@@ -23,7 +23,7 @@ const garmentsType_list = (req, res) => {
     GarmentsType.find()
         .then((garmentsType_data) => {
             if (garmentsType_data.length == 0)
-                return res.status(200).json({ success: trusted, message: garmentsType_data });
+                return res.status(200).json({ success: trusted, garmentsType_data });
             else
                 return res.status(200).json({ success: true, garmentsType_data });
         })
