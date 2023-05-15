@@ -1,4 +1,5 @@
 const orderProgress = require("../models/orderProgress");
+const order_ = require("../models/order");
 
 const add_progress = (req, res) => {
 
@@ -28,13 +29,19 @@ const add_progress = (req, res) => {
             } else {
                 order.progress.push(newProgress);
                 order.status = newProgress.work;
-                order.save()
-                    .then(() => {
-                        return res.status(200).send({ success: true, message: "order Progress is add" });
-                    })
-                    .catch((err) => {
-                        return res.status(201).send({ success: false, message: "order Progress is not add :-" + err });
-                    });
+                order_.updateOne({ order_id: orderId },
+                    { $set: { "status": newProgress.work } }).then(
+                        () => {
+                            order.save()
+                                .then(() => {
+                                    return res.status(200).send({ success: true, message: "order Progress is add" });
+                                })
+                                .catch((err) => {
+                                    return res.status(201).send({ success: false, message: "order Progress is not add :-" + err });
+                                });
+                        }
+                    )
+
             }
         })
         .catch(err => {
