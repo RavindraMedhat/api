@@ -16,7 +16,7 @@ const addRecord = (req, res) => {
                     garment_tracking_id: req.body.garment_tracking_id,
                     garment_type_id: req.body.garment_type_id,
                     current_place: req.body.place,
-                    records: [newTrack],
+                    records: [],
                 });
 
                 newGarment.save().then(() => {

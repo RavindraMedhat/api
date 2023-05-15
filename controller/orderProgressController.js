@@ -27,6 +27,7 @@ const add_progress = (req, res) => {
                 });
             } else {
                 order.progress.push(newProgress);
+                order.status = newProgress.work;
                 order.save()
                     .then(() => {
                         return res.status(200).send({ success: true, message: "order Progress is add" });
