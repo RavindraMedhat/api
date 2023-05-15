@@ -59,7 +59,7 @@ const updateReceivingDate = (req, res) => {
 };
 
 const getRecords = (req, res) => {
-    const garment_tracking_id = req.params.garment_tracking_id;
+    const garment_tracking_id = req.params.garmentTrackingId;
 
     GarmentTracking.findOne({ garment_tracking_id })
         .then(garment => {
