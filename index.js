@@ -1,10 +1,13 @@
 const express = require("express");
+
 const userRoutes = require("./routes/userRoutes")
 const garmentsTypeRoutes = require("./routes/garmentsTypeRoutes")
 const customerRoutes = require("./routes/customerRoutes")
 const orderRoutes = require("./routes/orderRoutes")
 const orderProgressRoutes = require("./routes/orderProgress")
 const sellReportRoutes = require("./routes/sellReportRoutes")
+const garment_tracking = require("./routes/garmentTrackingRoutes")
+
 const appdata = require("./data.json");
 const User = require("./models/user");
 const mongose = require("mongoose");
@@ -46,6 +49,8 @@ app.get("/", (req, res) => {
     res.send("hello, i am rvcl");
 });
 
+// app.use(allApi);
+
 app.use('/user', userRoutes);
 
 app.use('/garmentsType', garmentsTypeRoutes);
@@ -57,6 +62,8 @@ app.use('/order', orderRoutes);
 app.use('/orderProgress', orderProgressRoutes);
 
 app.use('/sellReport', sellReportRoutes);
+
+app.use('/garment_tracking', garment_tracking);
 
 
 
