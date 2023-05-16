@@ -44,7 +44,7 @@ const updateReceivingDate = (req, res) => {
 
     GarmentTracking.findOneAndUpdate(
         { garment_tracking_id, "records._id": record_id },
-        { $set: { "records.$.receiving_date": receiving_date } },
+        { $set: { "records.$.receiving_date": receiving_date, "current_place": "Store" } },
         // { new: true }
     )
         .then(updatedGarment => {
