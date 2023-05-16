@@ -26,6 +26,7 @@ const addRecord = (req, res) => {
                 });
             } else {
                 garment.records.push(newTrack);
+                garment.current_place = newTrack.place;
                 garment.save().then(() => {
                     return res.status(200).send({ success: true, message: "Garment tracking record added" });
                 }).catch((err) => {
@@ -93,6 +94,6 @@ const getRecords = (req, res) => {
 module.exports = {
     addRecord,
     updateReceivingDate,
-    getRecord, 
+    getRecord,
     getRecords
 };
