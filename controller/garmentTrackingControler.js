@@ -58,7 +58,7 @@ const updateReceivingDate = (req, res) => {
         });
 };
 
-const getRecords = (req, res) => {
+const getRecord = (req, res) => {
     const garment_tracking_id = req.params.garmentTrackingId;
 
     GarmentTracking.findOne({ garment_tracking_id })
@@ -74,8 +74,25 @@ const getRecords = (req, res) => {
         });
 };
 
+
+const getRecords = (req, res) => {
+
+    GarmentTracking.find()
+        .then(garment => {
+            if (!garment) {
+                return res.status(404).send({ success: false, message: `Garment with ID ${garment_tracking_id} not found` });
+            } else {
+                return res.status(200).send({ success: true, data: garment });
+            }
+        })
+        .catch(err => {
+            return res.status(500).json({ success: false, message: err.message });
+        });
+};
+
 module.exports = {
     addRecord,
     updateReceivingDate,
+    getRecord, 
     getRecords
 };
