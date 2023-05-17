@@ -133,7 +133,7 @@ const order_ByCustomerId = async (req, res) => {
 
             } else {
                 const garmentTypeIds = order_data.map(order => order.garment_type_id);
-                garmentsType.find({ _id: { $in: garmentTypeIds } })
+                GarmentsType.find({ _id: { $in: garmentTypeIds } })
                     .then((garment_type_data) => {
                         if (garment_type_data.length == 0) {
 
