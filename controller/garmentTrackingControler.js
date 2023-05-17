@@ -1,4 +1,5 @@
 const GarmentTracking = require("../models/garment_tracking");
+const GarmentsType = require("../models/garmentsType");
 
 const addRecord = (req, res) => {
 
@@ -67,7 +68,18 @@ const getRecord = (req, res) => {
             if (!garment) {
                 return res.status(404).send({ success: false, message: `Garment with ID ${garment_tracking_id} not found` });
             } else {
-                return res.status(200).send({ success: true, data: garment });
+                GarmentsType.findById(garment[0].garment_type_id)
+                    .then((garment_type_data) => {
+                        if (garment_type_data.length == 0)
+                            return res.status(201).json({ success: false, message: "no data found" });
+                        else {
+                            return res.status(200).json({ success: true, Data: { garment_data: garment[0], garment_type_data } });
+                        }
+                    }).catch((e) => {
+                        console.log("error :- ", e);
+                        return res.status(400).json(e);
+                    })
+                // return res.status(200).send({ success: true, data: garment });
             }
         })
         .catch(err => {
