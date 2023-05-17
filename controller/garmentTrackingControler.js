@@ -68,6 +68,8 @@ const getRecord = (req, res) => {
             if (!garment) {
                 return res.status(404).send({ success: false, message: `Garment with ID ${garment_tracking_id} not found` });
             } else {
+                console.log(garment);
+
                 GarmentsType.findById(garment[0].garment_type_id)
                     .then((garment_type_data) => {
                         // console.log(garment[0].garment_type_id + "garment_type_data :- ", garment_type_data);
