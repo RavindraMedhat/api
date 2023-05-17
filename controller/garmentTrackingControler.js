@@ -70,7 +70,7 @@ const getRecord = (req, res) => {
             } else {
                 console.log(garment);
 
-                GarmentsType.findById(garment[0].garment_type_id)
+                GarmentsType.findById(garment.garment_type_id)
                     .then((garment_type_data) => {
                         // console.log(garment[0].garment_type_id + "garment_type_data :- ", garment_type_data);
                         if (garment_type_data.length == 0)
