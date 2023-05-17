@@ -76,7 +76,7 @@ const getRecord = (req, res) => {
                         if (garment_type_data.length == 0)
                             return res.status(201).json({ success: false, message: "no data found" });
                         else {
-                            return res.status(200).json({ success: true, Data: { garment_data: garment[0], garment_type_data } });
+                            return res.status(200).json({ success: true, Data: { garment_data: garment, garment_type_data } });
                         }
                     }).catch((e) => {
                         console.log("error :- ", e);
