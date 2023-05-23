@@ -4,65 +4,90 @@ const order = require("../models/order");
 const SellReport = require('../models/report');
 const GarmentsType = require("../models/garmentsType");
 
+const { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } = require("firebase/storage");
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAWSkFneOhBIPRUg0zif8F5irl_fgXHoe0",
+    authDomain: "project-sem6-eac05.firebaseapp.com",
+    projectId: "project-sem6-eac05",
+    storageBucket: "project-sem6-eac05.appspot.com",
+    messagingSenderId: "853166853967",
+    appId: "1:853166853967:web:a3d6b38895d1ba559c7f3a",
+    measurementId: "G-F9DRDBY0CX"
+};
+
+firebase.initializeApp(firebaseConfig);
+const storage = getStorage();
 
 
 const order_add = async (req, res) => {
 
-    const c = new order(req.body);
+    const c = await new order(req.body);
 
-    c.save().then(() => {
+    Order_form_path = req.body.customer_id + "/" + req.body.order_id + "_" + Date.now() + path.extname(req.file.originalname);
+    const storageref = ref(storage, Order_form_path);
 
-        const year = c.order_date.getFullYear();
-        const month = c.order_date.toLocaleString('default', { month: 'long' });
-        var orderGarmentType = "";
+    const metadata = {
+        contentType: 'image/jpg'
+    };
+    uploadBytes(storageref, req.file.buffer, metadata)
+        .then(() => {
+            getDownloadURL(storageref).then((url) => {
+                c.order_form_img_URL = url;
+            }).then(() => {
+                c.save().then(() => {
 
-        GarmentsType.findById(c.garment_type_id).then((data) => {
-            orderGarmentType = data.garmentsTypeName;
-            SellReport.findOne({ year, month }).then((sellReport) => {
+                    const year = c.order_date.getFullYear();
+                    const month = c.order_date.toLocaleString('default', { month: 'long' });
+                    var orderGarmentType = "";
 
-                if (!sellReport) {
-                    const newSellReport = new SellReport({
-                        year,
-                        month,
-                        sell: [{
-                            garmentsTypeName: orderGarmentType,
-                            quantity: 1,
-                        }],
-                    });
-                    newSellReport.save().then(() => {
-                        return res.status(200).send({ success: true, message: "order is add" });
+                    GarmentsType.findById(c.garment_type_id).then((data) => {
+                        orderGarmentType = data.garmentsTypeName;
+                        SellReport.findOne({ year, month }).then((sellReport) => {
 
-                    });
-                } else {
-                    const index = sellReport.sell.findIndex(item => item.garmentsTypeName === orderGarmentType);
+                            if (!sellReport) {
+                                const newSellReport = new SellReport({
+                                    year,
+                                    month,
+                                    sell: [{
+                                        garmentsTypeName: orderGarmentType,
+                                        quantity: 1,
+                                    }],
+                                });
+                                newSellReport.save().then(() => {
+                                    return res.status(200).send({ success: true, message: "order is add" });
 
-                    if (index === -1) {
-                        sellReport.sell.push({
-                            garmentsTypeName: orderGarmentType,
-                            quantity: 1,
-                        });
-                    } else {
-                        sellReport.sell[index].quantity += 1;
-                    }
+                                });
+                            } else {
+                                const index = sellReport.sell.findIndex(item => item.garmentsTypeName === orderGarmentType);
 
-                    sellReport.save().then(() => {
-                        return res.status(200).send({ success: true, message: "order is add" });
+                                if (index === -1) {
+                                    sellReport.sell.push({
+                                        garmentsTypeName: orderGarmentType,
+                                        quantity: 1,
+                                    });
+                                } else {
+                                    sellReport.sell[index].quantity += 1;
+                                }
 
-                    });
-                }
+                                sellReport.save().then(() => {
+                                    return res.status(200).send({ success: true, message: "order is add" });
+
+                                });
+                            }
+                        })
+
+                    }).catch((e) => {
+                        return res.status(201).json({ success: false, message: e.message });
+                    })
+
+                }).catch((e) => {
+                    return res.status(201).json({ success: false, message: e.message });
+                })
             })
-
-        }).catch((e) => {
-            return res.status(201).json({ success: false, message: e.message });
         })
 
 
-
-
-
-    }).catch((e) => {
-        return res.status(201).json({ success: false, message: e.message });
-    })
 }
 
 const order_list = async (req, res) => {

@@ -24,6 +24,9 @@ const orderSchema = new mongoose.Schema({
     garment_type_id: {
         type: String,
         required: true
+    },order_form_img_URL: {
+        type: String,
+        required: true
     },
 });
 
