@@ -23,7 +23,7 @@ const customerSchema = new mongoose.Schema({
   aadharNumber: {
     type: String,
   }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('customer', customerSchema);
 

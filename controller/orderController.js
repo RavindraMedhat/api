@@ -95,7 +95,7 @@ const order_add = async (req, res) => {
 
 const order_list = async (req, res) => {
 
-    order.find()
+    order.find({ status: { $regex: /^(?!delivered$)/i } }).sort({ delivery_date: -1 })
         .then((order_data) => {
             if (order_data.length == 0)
                 return res.status(200).json({ success: true, order_data });
@@ -164,19 +164,15 @@ const order_ByCustomerId = async (req, res) => {
                 GarmentsType.find({ _id: { $in: garmentTypeIds } })
                     .then((garment_type_data) => {
                         if (garment_type_data.length == 0) {
-
                             return res.status(200).json({ success: false, message: "no data found 2" });
-
                         } else {
                             return res.status(200).json({ success: true, Data: { order_data, garment_type_data } });
-
                         }
                     }).catch((e) => {
                         console.log("error :- ", e);
                         return res.status(400).json(e);
                     });
             }
-
         }).catch((e) => {
             console.log("error :- ", e);
             return res.status(400).json(e);
