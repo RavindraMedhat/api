@@ -27,7 +27,7 @@ const order_add = async (req, res) => {
 
     const c = await new order(req.body);
 
-    Order_form_path = req.body.customer_id + "/" + req.body.order_id + "_" + Date.now() + path.extname(req.file.originalname);
+    Order_form_path = req.body.customer_id + "/" + c._id + "_" + Date.now() + path.extname(req.file.originalname);
     const storageref = ref(storage, Order_form_path);
 
     const metadata = {
@@ -58,7 +58,7 @@ const order_add = async (req, res) => {
                                     }],
                                 });
                                 newSellReport.save().then(() => {
-                                    return res.status(200).send({ success: true, message: "order is add" });
+                                    return res.status(200).send({ success: true, message: "order is add", data: c });
 
                                 });
                             } else {
@@ -74,7 +74,7 @@ const order_add = async (req, res) => {
                                 }
 
                                 sellReport.save().then(() => {
-                                    return res.status(200).send({ success: true, message: "order is add" });
+                                    return res.status(200).send({ success: true, message: "order is add", id: c.id });
 
                                 });
                             }
