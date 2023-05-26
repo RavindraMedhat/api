@@ -3,6 +3,7 @@ const { addRecord, getRecords, updateReceivingDate, getRecord, add_garment } = r
 const router = express.Router();
 
 router.post('/addRecord', addRecord);
+
 router.post('/addGarment', add_garment);
 
 router.put('/updateRecord', updateReceivingDate);

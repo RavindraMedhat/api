@@ -8,7 +8,7 @@ const add_garment = (req, res) => {
         sending_date: req.body.sending_date,
         receiving_date: req.body.receiving_date
     }; const newGarment = new GarmentTracking({
-        garment_tracking_id: req.body.name,
+        garment_tracking_id: req.body.garment_tracking_id,
         garment_type_id: req.body.garment_type_id,
         current_place: req.body.place,
         records: [],
