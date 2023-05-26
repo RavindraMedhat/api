@@ -13,7 +13,7 @@ const add_garment = (req, res) => {
         current_place: req.body.place,
         records: [],
     });
-
+    console.log(newGarment.garment_tracking_id);
     newGarment.save().then(() => {
         return res.status(200).send({ success: true, message: "new Garment tracking  record added", id: newGarment.id });
     }).catch((err) => {
