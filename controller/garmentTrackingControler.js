@@ -14,14 +14,14 @@ const addRecord = (req, res) => {
         .then(garment => {
             if (!garment) {
                 const newGarment = new GarmentTracking({
-                    garment_tracking_id: req.body.garment_tracking_id,
+                    // garment_tracking_id: req.body.garment_tracking_id,
                     garment_type_id: req.body.garment_type_id,
                     current_place: req.body.place,
                     records: [],
                 });
 
                 newGarment.save().then(() => {
-                    return res.status(200).send({ success: true, message: "Garment tracking record added" });
+                    return res.status(200).send({ success: true, message: "Garment tracking record added", id: newGarment.id });
                 }).catch((err) => {
                     return res.status(500).send({ success: false, message: "Error while adding garment tracking record: " + err });
                 });
@@ -44,7 +44,7 @@ const updateReceivingDate = (req, res) => {
     const { garment_tracking_id, record_id, receiving_date } = req.body;
 
     GarmentTracking.findOneAndUpdate(
-        { garment_tracking_id, "records._id": record_id },
+        { id: garment_tracking_id, "records._id": record_id },
         { $set: { "records.$.receiving_date": receiving_date, "current_place": "Store" } },
         // { new: true }
     )
