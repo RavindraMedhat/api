@@ -63,7 +63,7 @@ const updateReceivingDate = (req, res) => {
 const getRecord = (req, res) => {
     const garment_tracking_id = req.params.garmentTrackingId;
 
-    GarmentTracking.findOne({ id: garment_tracking_id })
+    GarmentTracking.findById(garment_tracking_id)
         .then(garment => {
             if (!garment) {
                 return res.status(404).send({ success: false, message: `Garment with ID ${garment_tracking_id} not found` });
