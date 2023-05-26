@@ -111,7 +111,7 @@ const order_list = async (req, res) => {
 
 const order_ByOrderId = async (req, res) => {
 
-    order.find({ order_id: req.params.id })
+    order.findById(req.params.id)
         .then((order_data) => {
             if (order_data.length == 0)
                 return res.status(201).json({ success: false, message: "no data found" });
