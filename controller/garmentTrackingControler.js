@@ -1,6 +1,27 @@
 const GarmentTracking = require("../models/garment_tracking");
 const GarmentsType = require("../models/garmentsType");
 
+const add_garment = (req, res) => {
+    const newTrack = {
+        place: req.body.place,
+        details: req.body.details,
+        sending_date: req.body.sending_date,
+        receiving_date: req.body.receiving_date
+    }; const newGarment = new GarmentTracking({
+        garment_tracking_id: req.body.name,
+        garment_type_id: req.body.garment_type_id,
+        current_place: req.body.place,
+        records: [],
+    });
+
+    newGarment.save().then(() => {
+        return res.status(200).send({ success: true, message: "new Garment tracking  record added", id: newGarment.id });
+    }).catch((err) => {
+        return res.status(500).send({ success: false, message: "Error while adding garment tracking record: " + err });
+    });
+}
+
+
 const addRecord = (req, res) => {
 
     const newTrack = {
@@ -37,19 +58,7 @@ const addRecord = (req, res) => {
             }
         })
         .catch(err => {
-            
-            const newGarment = new GarmentTracking({
-                garment_tracking_id: req.body.name,
-                garment_type_id: req.body.garment_type_id,
-                current_place: req.body.place,
-                records: [],
-            });
 
-            newGarment.save().then(() => {
-                return res.status(200).send({ success: true, message: "new Garment tracking  record added", id: newGarment.id });
-            }).catch((err) => {
-                return res.status(500).send({ success: false, message: "Error while adding garment tracking record: " + err });
-            });
             res.status(500).json({ success: false, message: err.message });
         });
 };
@@ -124,5 +133,6 @@ module.exports = {
     addRecord,
     updateReceivingDate,
     getRecord,
-    getRecords
+    getRecords,
+    add_garment
 };
