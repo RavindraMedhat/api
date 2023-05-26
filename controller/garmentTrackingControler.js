@@ -29,7 +29,7 @@ const addRecord = (req, res) => {
                 garment.records.push(newTrack);
                 garment.current_place = newTrack.place;
                 garment.save().then(() => {
-                    return res.status(200).send({ success: true, message: "Garment tracking record added" });
+                    return res.status(200).send({ success: true, message: "Garment tracking record added", id: newGarment.id });
                 }).catch((err) => {
                     return res.status(500).send({ success: false, message: "Error while adding garment tracking record: " + err });
                 });
