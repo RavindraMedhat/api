@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const garment_tracking_Schema = new mongoose.Schema({
-    garment_tracking_id: String,
+    // garment_tracking_id: String,
     garment_type_id: String,
     current_place: String,
     records: [{
