@@ -10,18 +10,18 @@ const addRecord = (req, res) => {
         receiving_date: req.body.receiving_date
     };
 
-    GarmentTracking.findOne({ garment_tracking_id: req.body.garment_tracking_id })
+    GarmentTracking.findById(req.body.garment_tracking_id)
         .then(garment => {
             if (!garment) {
                 const newGarment = new GarmentTracking({
-                    // garment_tracking_id: req.body.garment_tracking_id,
+                    garment_tracking_id: req.body.name,
                     garment_type_id: req.body.garment_type_id,
                     current_place: req.body.place,
                     records: [],
                 });
 
                 newGarment.save().then(() => {
-                    return res.status(200).send({ success: true, message: "Garment tracking record added", id: newGarment.id });
+                    return res.status(200).send({ success: true, message: "new Garment tracking  record added", id: newGarment.id });
                 }).catch((err) => {
                     return res.status(500).send({ success: false, message: "Error while adding garment tracking record: " + err });
                 });
@@ -29,7 +29,7 @@ const addRecord = (req, res) => {
                 garment.records.push(newTrack);
                 garment.current_place = newTrack.place;
                 garment.save().then(() => {
-                    return res.status(200).send({ success: true, message: "Garment tracking record added", id: newGarment.id });
+                    return res.status(200).send({ success: true, message: "Garment tracking record added" });
                 }).catch((err) => {
                     return res.status(500).send({ success: false, message: "Error while adding garment tracking record: " + err });
                 });
