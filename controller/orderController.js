@@ -113,8 +113,11 @@ const order_ByOrderId = async (req, res) => {
 
     order.findById(req.params.id)
         .then((order_data) => {
-            if (order_data.length == 0)
+            console.log(order_data);
+            if (order_data.length == 0) {
                 return res.status(201).json({ success: false, message: "no data found" });
+
+            }
             else {
                 customer.findById(order_data[0].customer_id)
                     .then((customer_data) => {
