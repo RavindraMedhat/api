@@ -78,7 +78,7 @@ const get_Progress = (req, res) => {
     orderProgress.find({ order_id: orderId })
         .then((order_progress_data) => {
             if (!order_progress_data) {
-                return res.status(201).send({ success: false, message: `Order with ID ${orderId} not found.` + order_progress_data });
+                return res.status(201).send({ success: false, message: `Order  with ID ${orderId} not found.` + order_progress_data });
             } else {
                 return res.status(200).send({ success: true, data: order_progress_data[0] });
             }
