@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 
 const userRoutes = require("./routes/userRoutes")
 const garmentsTypeRoutes = require("./routes/garmentsTypeRoutes")
@@ -16,6 +17,7 @@ const bcrypt = require("bcrypt");
 const app = express();
 
 const port = process.env.PORT || 7485;
+
 
 // code for connection
 
@@ -37,6 +39,7 @@ mongose.connect("mongodb+srv://test:74857485@cluster0.3snq0fm.mongodb.net/RVCL_D
     console.log(e);
 });
 
+app.use(cors());
 
 app.use(express.json());
 
@@ -45,6 +48,7 @@ app.use((req, res, next) => {
     console.log("url : -" + req.hostname + req.url);
     next();
 })
+
 app.get("/", (req, res) => {
     res.send("hello, i am rvcl");
 });
